@@ -1,0 +1,140 @@
+'scopeName': 'source.irule'
+'fileTypes': [
+  'tcl'
+  'irule'
+]
+'foldingStartMarker': '^(when)'
+'foldingStopMarker': '^}$'
+'name': 'F5 Networks iRules'
+'patterns': [
+  {
+    'include': '#hash'
+  }
+  {
+    'include': '#event'
+  }
+  {
+    'include': '#log'
+  }
+  {
+    'include': '#set_variables'
+  }
+  {
+    'include': '#use_variables'
+  }
+  {
+    'include': '#set_global_variables'
+  }
+  {
+    'include': '#use_global_variables'
+  }
+  {
+    'include': '#commands'
+  }
+  {
+    'include': '#ipv4_address'
+  }
+  {
+    'include': '#ipv6_address'
+  }
+  {
+    'include': '#subnet'
+  }
+]
+'repository':
+  'hash':
+    'patterns': [
+        'match': '^#.*$'
+        'name': 'comment.line.f5networks'
+    ]
+  'event':
+    'patterns': [
+      {
+        'begin': '^(when)\\s'
+        'beginCaptures':
+          '1':
+            'name': 'normal.character.f5networks'
+        'end': '\\{'
+        'patterns': [
+          {
+            'match': '\\b(RULE_INIT|LB_.*|DB_.*|DIAMETER_.*|DNS_.*|FIX_.*|HTTP_.*|CLIENT_.*|SERVER_.*|CACHE_.*|SIP_.*|CLIENTSSL_.*|SERVERSSL_.*|X509_.*)\\b'
+            'name': 'entity.character.f5networks'
+          }
+        ]
+      }
+    ]
+  'log':
+    'patterns': [
+        'match': '\\b(log)\\b.*\\"'
+        'name': 'comment.line.f5networks'
+    ]
+  'set_variables':
+    'patterns': [
+      {
+        'match': '\\s+(set|append)\\s([a-zA-Z0-9\\-_]+)'
+        'captures':
+          '1':
+            'name': 'keyword.other.f5networks'
+          '2':
+            'name': 'string.other.f5networks'
+      }
+    ]
+  'use_variables':
+    'patterns': [
+      {
+        'match': '(\\$[a-zA-Z0-9\\-_]+)'
+        'captures':
+          '1':
+            'name': 'string.other.f5networks'
+      }
+    ]
+  'set_global_variables':
+    'patterns': [
+      {
+        'match': '\\s+(set|append)\\s([a-zA-Z0-9\\-_\\:]+)'
+        'captures':
+          '1':
+            'name': 'keyword.other.f5networks'
+          '2':
+            'name': 'string.regexp.f5networks'
+      }
+    ]
+  'use_global_variables':
+    'patterns': [
+      {
+        'match': '(\\$\\:\\:[a-zA-Z0-9\\-_\\:]+)'
+        'captures':
+          '1':
+            'name': 'string.regexp.f5networks'
+      }
+    ]
+  'commands':
+    'patterns': [
+      {
+        'match': '(\\[?[A-Z]+\\:\\:[a-z0-9_\\s]+\\]?)'
+        'captures':
+          '1':
+            'name': 'constant.character.f5networks'
+      }
+    ]
+  'ipv4_address':
+    'patterns': [
+      {
+        'match': '\\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\b'
+        'name': 'constant.numeric.f5networks'
+      }
+    ]
+  'ipv6_address':
+    'patterns': [
+      {
+        'match': '\\b([0-9a-fA-F]{0,4}|0)(\:([0-9a-fA-F]{0,4}|0)){1,7}\\b'
+        'name': 'constant.numeric.f5networks'
+      }
+    ]
+  'subnet':
+    'patterns': [
+      {
+        'match': '(\\s(255|0)\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}|/\\d{1,2})'
+        'name': 'string.regexp.f5networks'
+      }
+    ]

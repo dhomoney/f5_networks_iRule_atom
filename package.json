@@ -1,0 +1,15 @@
+{
+  "name": "f5-networks-iRules",
+  "version": "0.1.0",
+  "description": "F5 Networks iRules Language",
+  "repository": "https://github.com/dhomoney/f5_networks_iRule_atom",
+  "license": "GNU",
+  "engines": {
+    "atom": ">0.50.0"
+  },
+  "dependencies": {},
+  "readmeFilename": "README.md",
+  "bugs": {
+    "url": "https://github.com/dhomoney/f5_networks_iRule_atom/issues"
+  }
+}
