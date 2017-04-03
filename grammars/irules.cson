@@ -8,19 +8,10 @@
 'name': 'F5 Networks iRules'
 'patterns': [
   {
-    'include': '#hash'
+    'include': '#comments'
   }
   {
     'include': '#event'
-  }
-  {
-    'include': '#log'
-  }
-  {
-    'include': '#set_variables'
-  }
-  {
-    'include': '#use_variables'
   }
   {
     'include': '#set_global_variables'
@@ -29,7 +20,16 @@
     'include': '#use_global_variables'
   }
   {
-    'include': '#commands'
+    'include': '#set_variables'
+  }
+  {
+    'include': '#use_variables'
+  }
+  {
+    'include': '#irule_commands'
+  }
+  {
+    'include': '#tcl_commands'
   }
   {
     'include': '#ipv4_address'
@@ -42,56 +42,31 @@
   }
 ]
 'repository':
-  'hash':
+  'comments':
     'patterns': [
-        'match': '^#.*$'
+        'match': '#.*$'
         'name': 'comment.line.f5networks'
     ]
   'event':
     'patterns': [
       {
-        'begin': '^(when)\\s'
+        'begin': '^\\s+(when)\\s'
         'beginCaptures':
           '1':
             'name': 'normal.character.f5networks'
         'end': '\\{'
         'patterns': [
           {
-            'match': '\\b(RULE_INIT|LB_.*|DB_.*|DIAMETER_.*|DNS_.*|FIX_.*|HTTP_.*|CLIENT_.*|SERVER_.*|CACHE_.*|SIP_.*|CLIENTSSL_.*|SERVERSSL_.*|X509_.*)\\b'
+            'match': '(RULE_INIT|LB_.*|DB_.*|DIAMETER_.*|DNS_.*|FIX_.*|HTTP_.*|CLIENT_.*|SERVER_.*|CACHE_.*|SIP_.*|CLIENTSSL_.*|SERVERSSL_.*|X509_.*)'
             'name': 'entity.character.f5networks'
           }
         ]
       }
     ]
-  'log':
-    'patterns': [
-        'match': '\\b(log)\\b.*\\"'
-        'name': 'comment.line.f5networks'
-    ]
-  'set_variables':
-    'patterns': [
-      {
-        'match': '\\s+(set|append)\\s([a-zA-Z0-9\\-_]+)'
-        'captures':
-          '1':
-            'name': 'keyword.other.f5networks'
-          '2':
-            'name': 'string.other.f5networks'
-      }
-    ]
-  'use_variables':
-    'patterns': [
-      {
-        'match': '(\\$[a-zA-Z0-9\\-_]+)'
-        'captures':
-          '1':
-            'name': 'string.other.f5networks'
-      }
-    ]
   'set_global_variables':
     'patterns': [
       {
-        'match': '\\s+(set|append)\\s([a-zA-Z0-9\\-_\\:]+)'
+        'match': '\\s+(set|append|incr)\\s+(\\w+::\\w+)'
         'captures':
           '1':
             'name': 'keyword.other.f5networks'
@@ -102,19 +77,48 @@
   'use_global_variables':
     'patterns': [
       {
-        'match': '(\\$\\:\\:[a-zA-Z0-9\\-_\\:]+)'
+        'match': '(\\$\\{?\\w+::\\w+\\}?)'
         'captures':
           '1':
             'name': 'string.regexp.f5networks'
       }
     ]
-  'commands':
+  'set_variables':
     'patterns': [
       {
-        'match': '(\\[?[A-Z]+\\:\\:[a-z0-9_\\s]+\\]?)'
+        'match': '\\s+(set|append|incr|unset)\\s+(\\w+)\\s'
+        'captures':
+          '1':
+            'name': 'keyword.other.f5networks'
+          '2':
+            'name': 'string.other.f5networks'
+      }
+    ]
+  'use_variables':
+    'patterns': [
+      {
+        'match': '(\\$\\{?\\w+\\}?)'
+        'captures':
+          '1':
+            'name': 'string.other.f5networks'
+      }
+    ]
+  'irule_commands':
+    'patterns': [
+      {
+        'match': '(\\w+::\\w+|reject|log|connect)'
         'captures':
           '1':
             'name': 'constant.character.f5networks'
+      }
+    ]
+  'tcl_commands':
+    'patterns': [
+      {
+        'match': '(after|return|catch|scan|format|expr|string|binary)'
+        'captures':
+          '1':
+            'name': 'keyword.other.f5networks'
       }
     ]
   'ipv4_address':
